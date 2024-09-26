@@ -1,0 +1,76 @@
+44 Milton Avenue #305
+
+Alpharetta, GA 30009
+
+678.827.1693
+
+Purchase Order
+
+Vendor
+
+Bill to
+
+Order date
+
+PO#
+
+SOPUS Products
+P.O. Box 7247-6236
+Philadelphia, PA 19170-6236 
+mark.tremblay@shell.com
+
+Environmental Exchange Group
+Bradlee Williams
+44 MIlton Ave #305
+Alpharetta, GA 30009
+bradlee@goeeg.com
+
+March 21, 2024
+
+SP0001
+
+Ship to
+
+Due date
+
+ATC Drivetrain Knoxville
+3015 E Governor John Sevier Hwy
+Knoxville, TN 37914
+
+March 26, 2024
+
+Item
+
+Qty (GAL)
+
+Unit price
+
+Total price
+
+310013VX0A NISSAN CVT ATF NS-3
+
+5,000
+
+$12.50
+
+$62,500.00
+
+Notes:
+
+Terms: Net 30
+
+$0.00
+
+$0.00
+
+$0.00
+
+Subtotal
+
+$62,500.00
+
+No tax
+$0.00
+$62,500.00
+
+

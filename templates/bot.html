@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatbot</title>
+<style>
+    body, html {
+  font-family: 'IBM Plex Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: linear-gradient(135deg, #0e0d15, #2d0f35);
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:linear-gradient(135deg, #0e0d15, #2d0f35);
+}
+
+
+.chat-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+#chatbox {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-message {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  align-self: flex-start; /* Align to the left */
+  max-width: 70%;
+}
+
+.bot-message {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  align-self: flex-end; /* Align to the right */
+  max-width: 70%;
+}
+
+#input-box {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+#userInput {
+  flex-grow: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 30px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+#send {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+::placeholder {
+  color: #fff;
+}
+</style>
+</head>
+<body>
+<div class="chat-container">
+    <div class="chat-header">Chatbot</div>
+    <div id="chatbox"></div>
+    <div id="input-box">
+        <input id="userInput" type="text" placeholder="Type your message..." >
+        <button onclick="sendMessage()" id="send">Send</button>
+        <span class="loader" id="loader"></span>
+    </div>
+</div>
+
+<script>
+    async function sendMessage() {
+        try {
+            var pm1 = document.getElementsByClassName("p1")
+            var pmv = pm1[pm1.length-1].innerHTML
+        } catch {
+            var pmv = "none"
+        }
+        const userInput = document.getElementById('userInput');
+        const message = userInput.value;
+        userInput.value = '';
+
+        const chatbox = document.getElementById('chatbox');
+        const loader = document.getElementById('loader');
+
+        chatbox.innerHTML += `<p class="user-message">` + message + `</p>`;
+        loader.style.display = "block";
+
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'message': message,
+                'pm': pmv
+            })
+        });
+
+        const responseData = await response.json();
+        chatbox.innerHTML += `<p class="bot-message">` + responseData.message + `</p>`;
+
+        // Check if response contains recommendations
+        if (responseData.recommendations) {
+            const recommendations = responseData.recommendations;
+            chatbox.innerHTML += '<p class="recommendation">Recommended Questions:</p>';
+            recommendations.forEach(question => {
+                chatbox.innerHTML += `<p class="recommendation">${question}</p>`;
+            });
+        }
+
+        loader.style.display = "none";
+
+        var objDiv = document.getElementById("chatbox");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+
+    const node = document.getElementById("userInput");
+    node.addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    });
+</script>
+</body>
+</html>
